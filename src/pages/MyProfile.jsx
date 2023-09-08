@@ -3,33 +3,42 @@ import Header from "../components/layout/Header";
 import Footer from "../components/layout/Footer";
 import { axiosAgencyTp, getConfig } from "../utils/configureAxios";
 import Load from "../components/layout/Load";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../store/slices/userInfo.slice";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 
 const MyProfile = () => {
+  const { token, user: userStore } = useSelector((store) => store.userInfo);
   const { register, handleSubmit, reset, control } = useForm();
   const [user, setUser] = useState(null);
   const [update, setUpdate] = useState(false);
   const dispatch = useDispatch();
 
   const submit = (dataRegisterUser) => {
-    // axiosAgencyTp
-    //   .post("/users/id", dataRegisterUser)
-    //   .then(() => {
-    //     const dataLogin = {
-    //       email: dataRegisterUser.email,
-    //       password: dataRegisterUser.password,
-    //     };
-    //     dispatch(loginUser(dataLogin));
-    //     navigate("/principalView");
-    //     window.alert("Cuenta creada con éxito");
-    //   })
-    //   .catch((err) => console.log(err));
+    const url = `/users/${user?._id}`;
+
+    axiosAgencyTp
+      .patch(url, dataRegisterUser, getConfig())
+      .then(() => {
+        window.alert("Datos actualizados con exito");
+        setUpdate(false);
+        dispatch(logout());
+      })
+      .catch((err) => {
+        window.alert(err.response.data.message);
+      });
   };
 
   const handleDelete = () => {
-    console.log("Hola");
+    const url = `/users/${userStore.id}`;
+
+    axiosAgencyTp
+      .delete(url, getConfig())
+      .then(({ data }) => {
+        window.alert(data.message);
+        dispatch(logout());
+      })
+      .catch((err) => console.log(err));
   };
 
   const handleUpdate = () => {
@@ -45,16 +54,14 @@ const MyProfile = () => {
 
     axiosAgencyTp
       .get(url, getConfig())
-      .then(({ data }) => setUser(data.user))
+      .then(({ data }) => setUser(data?.user))
       .catch((err) => {
         if (err.response.data.message == "jwt expired") {
           window.alert("Please login again");
           dispatch(logout());
         }
       });
-  }, []);
-
-  console.log(user);
+  }, [userStore]);
 
   return (
     <div className="grid grid-rows-[auto_1fr_auto] min-h-screen bg-white text-gray-400 items-center ">
@@ -69,31 +76,31 @@ const MyProfile = () => {
 
         {/* Information card */}
         <article className="max-w-[1000px]  bg-gray  rounded-md shadow-lg shadow-gray-500 mx-4  lg:mx-auto">
-          <section className="flex flex-col justify-center gap-5">
-            {/* User image */}
-            <section
-              className={`relative h-40 rounded-t-lg flex justify-center`}
-            >
-              <div className="rounded-lg absolute px-8 bottom-0 max-w-[300px] mx-auto ">
-                {user?.profile_img ? (
-                  <img
-                    className="rounded-full shadow-lg shadow-black"
-                    src={user?.profile_img}
-                    alt={user?.first_name}
-                  />
-                ) : (
-                  <Load />
-                )}
-              </div>
-            </section>
-            {/* Content card */}
-            {update ? (
+          {update ? (
+            <section className="flex flex-col justify-center gap-5">
+              {/* User image */}
+              <section
+                className={`relative h-40 rounded-t-lg flex justify-center`}
+              >
+                <div className="rounded-lg absolute px-8 bottom-0 max-w-[300px] mx-auto ">
+                  {user?.profile_img ? (
+                    <img
+                      className="rounded-full shadow-lg shadow-black"
+                      src={user?.profile_img}
+                      alt={user?.first_name}
+                    />
+                  ) : (
+                    <Load />
+                  )}
+                </div>
+              </section>
+              {/* Content card */}
               <form
                 onSubmit={handleSubmit(submit)}
                 className="flex flex-col justify-center items-center my-6 text-center gap-3"
               >
                 {/* First Name */}
-                <div className="flex flex-col">
+                <div className="flex flex-row items-center gap-2">
                   <label className="text-sm font-semibold">First Name:</label>
                   <input
                     required
@@ -101,10 +108,11 @@ const MyProfile = () => {
                     className="border-2 rounded-md outline-none p-2"
                     type="text"
                     id="first_name"
+                    placeholder={user.first_name}
                   />
                 </div>
                 {/* Last Name */}
-                <div className="flex flex-col">
+                <div className="flex flex-row items-center gap-2">
                   <label className="text-sm font-semibold">Last Name:</label>
                   <input
                     required
@@ -112,22 +120,14 @@ const MyProfile = () => {
                     className="border-2 rounded-md outline-none p-2"
                     type="text"
                     id="last_name"
-                  />
-                </div>
-                {/* Email */}
-                <div className="flex flex-col">
-                  <label className="text-sm font-semibold">Email:</label>
-                  <input
-                    required
-                    {...register("email")}
-                    className="border-2 rounded-md outline-none p-2"
-                    type="email"
-                    id="email"
+                    placeholder={user.last_name}
                   />
                 </div>
                 {/* Current Password */}
-                <div className="flex flex-col">
-                  <label className="text-sm font-semibold">Password:</label>
+                <div className="flex flex-row items-center gap-2">
+                  <label className="text-sm font-semibold">
+                    Curr. password:
+                  </label>
                   <input
                     required
                     {...register("currentPassword")}
@@ -137,18 +137,18 @@ const MyProfile = () => {
                   />
                 </div>
                 {/* New Password */}
-                <div className="flex flex-col">
-                  <label className="text-sm font-semibold">Password:</label>
+                <div className="flex flex-row items-center gap-2">
+                  <label className="text-sm font-semibold">New password:</label>
                   <input
                     required
                     {...register("newPassword")}
                     className="border-2 rounded-md outline-none p-2"
                     type="password"
-                    id="currentPassword"
+                    id="newPassword"
                   />
                 </div>
                 {/* Description */}
-                <div className="flex flex-col">
+                <div className="flex flex-row items-center gap-2">
                   <label className="text-sm font-semibold">Description:</label>
                   <input
                     {...register("description")}
@@ -158,13 +158,13 @@ const MyProfile = () => {
                   />
                 </div>
                 {/* Img */}
-                <div className="flex flex-col">
+                <div className="flex flex-row items-center gap-2">
                   <label className="text-sm font-semibold">
                     Profile Image:
                   </label>
                   <input
                     {...register("profileImgUrl")}
-                    className="border-2 rounded-md outline-none p-2"
+                    className="border-2 rounded-md outline-none p-2 max-w-[170px]"
                     type="file"
                     id="profileImg"
                   />
@@ -179,7 +179,26 @@ const MyProfile = () => {
                   </button>
                 </section>
               </form>
-            ) : (
+            </section>
+          ) : (
+            <section>
+              {/* User image */}
+              <section
+                className={`relative h-40 rounded-t-lg flex justify-center`}
+              >
+                <div className="rounded-lg absolute px-8 bottom-0 max-w-[300px] mx-auto ">
+                  {user?.profile_img ? (
+                    <img
+                      className="rounded-full shadow-lg shadow-black"
+                      src={user?.profile_img}
+                      alt={user?.first_name}
+                    />
+                  ) : (
+                    <Load />
+                  )}
+                </div>
+              </section>
+              {/* Content card */}
               <section className="flex flex-col justify-center items-center my-6 text-center gap-3">
                 <h2 className="font-semibold">
                   {`${user?.first_name
@@ -220,16 +239,31 @@ const MyProfile = () => {
                   </div>
                 </section>
                 <section>
-                  <h3 className="font-semibold">Description:</h3>
+                  <span className="font-semibold">Role: </span>
+                  <span>
+                    {`${
+                      user?.role.split(" ")[0][0].toUpperCase() +
+                      user?.role.split(" ")[0].substring(1)
+                    } `}
+                    {user?.role.split(" ")[1] &&
+                      `${
+                        user?.role.split(" ")[1][0].toUpperCase() +
+                        user?.role.split(" ")[1].substring(1)
+                      }`}
+                  </span>
+                </section>
+                <section>
+                  <span className="font-semibold">Description:</span>
                   <p>{user?.description}</p>
                 </section>
+
                 <section className="flex justify-center gap-8">
                   <button onClick={handleUpdate}>Update Info</button>
                   <button onClick={handleDelete}>Delete account</button>
                 </section>
               </section>
-            )}
-          </section>
+            </section>
+          )}
         </article>
       </section>
       <Footer />

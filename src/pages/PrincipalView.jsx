@@ -1,19 +1,21 @@
 import { axiosAgencyTp, getConfig } from "../utils/configureAxios";
+import { logout } from "../store/slices/userInfo.slice";
+import { useDispatch, useSelector } from "react-redux";
 import Footer from "../components/layout/Footer";
 import Header from "../components/layout/Header";
 import ListUsers from "../components/principalView/ListUsers";
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { logout } from "../store/slices/userInfo.slice";
 
 const PrincipalView = () => {
   const [allUsers, setAllUsers] = useState([]); //Trae todos los usuarios
-  const [typesStatus, setTypesStatus] = useState([]); //Trae todos los status queue posibles
-  const [nameUser, setNameUser] = useState(""); //Enviamos el nombre que se escribe en el input
-  const [currentStatus, setCurrentStatus] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
   const [changeStatus, setChangeStatus] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [currentStatus, setCurrentStatus] = useState("");
+  const [nameUser, setNameUser] = useState(""); //Enviamos el nombre que se escribe en el input
+  const [typesStatus, setTypesStatus] = useState([]); //Trae todos los status queue posibles
+  const { user } = useSelector((store) => store.userInfo);
   const dispatch = useDispatch();
+  const [viewRoleSrJr, setViewRoleSrJr] = useState(false);
 
   let usersByName = [];
   if (allUsers.length > 0) {
@@ -83,6 +85,35 @@ const PrincipalView = () => {
     }
   };
 
+  //Funcion mostrar ejecutivos jr and sr
+  const handleViewSrAndJr = () => {
+    setViewRoleSrJr(!viewRoleSrJr);
+  };
+
+  useEffect(() => {
+    if (viewRoleSrJr) {
+      const url = `/users/findUsersRoleSrJr`;
+
+      axiosAgencyTp
+        .get(url, getConfig())
+        .then(({ data }) => {
+          setAllUsers(data.users);
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [viewRoleSrJr]);
+
+  useEffect(() => {
+    if (!viewRoleSrJr) {
+      const url = `/users/findUsersRoleSrJr`;
+
+      axiosAgencyTp
+        .get("/users", getConfig())
+        .then(({ data }) => setAllUsers(data.users))
+        .catch((err) => console.log(err));
+    }
+  }, [viewRoleSrJr]);
+
   useEffect(() => {
     //Si el currentStatus esta vacio traerá todos los usarios
     if (!currentStatus) {
@@ -149,8 +180,6 @@ const PrincipalView = () => {
 
   const hasUsers = usersInPage.length > 0;
 
-  //err.response.data.message = jwt expired
-
   return (
     <div className="grid grid-rows-[auto_1fr_auto] min-h-screen bg-white text-gray-400 ">
       <Header />
@@ -183,6 +212,13 @@ const PrincipalView = () => {
                 </option>
               ))}
             </select>
+          </section>
+          <section>
+            {user.role == "supervisor" && (
+              <button type="submit" onClick={handleViewSrAndJr}>
+                View Execuites Jr And Sr
+              </button>
+            )}
           </section>
         </form>
 

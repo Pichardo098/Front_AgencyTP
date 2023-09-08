@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
 import { axiosAgencyTp } from "../utils/configureAxios";
 import { loginUser } from "../store/slices/userInfo.slice";
+import Footer from "../components/layout/Footer";
 
 const opciones = [
   { label: "Jr Executive", value: "jr executive" },
@@ -31,13 +32,22 @@ const Signup = () => {
   };
 
   return (
-    <section className="bg-gray-200 text-black flex justify-center items-center ">
+    <section className="flex flex-col min-h-screen justify-between bg-gray-200 text-black ">
+      <header className="h-[50px]">
+        {token ? (
+          <Navigate to="/principalView" />
+        ) : (
+          <nav className="h-full flex justify-between text-center items-center px-2">
+            <h1>App To Connect</h1>
+          </nav>
+        )}
+      </header>
       {token ? (
         <Navigate to="/principalView" />
       ) : (
         <form
           onSubmit={handleSubmit(submit)}
-          className="p-5 mx-2 bg-white rounded-lg w-[350px] flex flex-col gap-6 my-8"
+          className="p-5 mx-auto bg-white rounded-lg w-[350px] flex flex-col gap-6 my-8"
         >
           <h3 className="font-bold text-2xl mt-2">Sign Up</h3>
           {/* First Name */}
@@ -140,6 +150,7 @@ const Signup = () => {
           </p>
         </form>
       )}
+      <Footer />
     </section>
   );
 };
