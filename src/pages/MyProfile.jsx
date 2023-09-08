@@ -9,21 +9,30 @@ import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 
 const MyProfile = () => {
-  const { token, user: userStore } = useSelector((store) => store.userInfo);
-  const { register, handleSubmit, reset, control } = useForm();
+  const { user: userStore } = useSelector((store) => store.userInfo);
+  const { register, handleSubmit, reset } = useForm();
   const [user, setUser] = useState(null);
   const [update, setUpdate] = useState(false);
   const dispatch = useDispatch();
+  const [file, setFile] = useState([]);
 
   const submit = (dataRegisterUser) => {
+    const formData = new FormData();
+    formData.append("first_name", dataRegisterUser.first_name);
+    formData.append("last_name", dataRegisterUser.last_name);
+    formData.append("currentPassword", dataRegisterUser.currentPassword);
+    formData.append("newPassword", dataRegisterUser.newPassword);
+    formData.append("description", dataRegisterUser.description);
+    formData.append("profileImgUrl", file[0]);
+
     const url = `/users/${user?._id}`;
 
     axiosAgencyTp
-      .patch(url, dataRegisterUser, getConfig())
+      .patch(url, formData, getConfig())
       .then(() => {
         window.alert("Datos actualizados con exito");
         setUpdate(false);
-        dispatch(logout());
+        //dispatch(logout());
       })
       .catch((err) => {
         window.alert(err.response.data.message);
@@ -165,14 +174,19 @@ const MyProfile = () => {
                 </div>
                 {/* Img */}
                 <div className="flex flex-row items-center gap-2">
-                  <label className="text-sm font-semibold">
+                  <label
+                    className="text-sm font-semibold"
+                    htmlFor="profileImgUrl"
+                  >
                     Profile Image:
                   </label>
                   <input
-                    {...register("profileImgUrl")}
                     className="border-2 rounded-md outline-none p-2 max-w-[170px]"
                     type="file"
                     id="profileImgUrl"
+                    name="file"
+                    accept="image/*"
+                    onChange={(e) => setFile(e.target.files)}
                   />
                 </div>
 

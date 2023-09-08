@@ -16,20 +16,29 @@ const Signup = () => {
   const { token } = useSelector((store) => store.userInfo);
   const { register, handleSubmit, reset, control } = useForm();
   const dispatch = useDispatch();
+  const [file, setFile] = useState([]);
 
   const submit = (dataRegisterUser) => {
-    console.log(dataRegisterUser.profileImgUrl);
-    // axiosAgencyTp
-    //   .post("/users/signup", dataRegisterUser)
-    //   .then(() => {
-    //     const dataLogin = {
-    //       email: dataRegisterUser.email,
-    //       password: dataRegisterUser.password,
-    //     };
-    //     window.alert("Cuenta creada con éxito");
-    //     dispatch(loginUser(dataLogin));
-    //   })
-    //   .catch((err) => console.log(err));
+    const formData = new FormData();
+    formData.append("first_name", dataRegisterUser.first_name);
+    formData.append("last_name", dataRegisterUser.last_name);
+    formData.append("email", dataRegisterUser.email);
+    formData.append("password", dataRegisterUser.password);
+    formData.append("description", dataRegisterUser.description);
+    formData.append("role", dataRegisterUser.role);
+    formData.append("profileImgUrl", file[0]);
+
+    axiosAgencyTp
+      .post("/users/signup", formData)
+      .then(() => {
+        const dataLogin = {
+          email: dataRegisterUser.email,
+          password: dataRegisterUser.password,
+        };
+        window.alert("Cuenta creada con éxito");
+        dispatch(loginUser(dataLogin));
+      })
+      .catch((err) => console.log(err));
   };
 
   return (
@@ -134,10 +143,12 @@ const Signup = () => {
               Profile Image:
             </label>
             <input
-              {...register("profileImgUrl")}
-              className="border-2 rounded-md outline-none p-2"
+              className="border-2 rounded-md outline-none p-2 max-w-[170px]"
               type="file"
-              id="profileImg"
+              id="profileImgUrl"
+              name="file"
+              accept="image/*"
+              onChange={(e) => setFile(e.target.files)}
             />
           </div>
 
