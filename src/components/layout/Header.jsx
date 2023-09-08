@@ -2,11 +2,19 @@ import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
+const status = {
+  available: "bg-green-500",
+  unavailable: "bg-gray-400",
+  busy: "bg-red-500",
+};
+
 const Header = () => {
   const { user } = useSelector((store) => store.userInfo);
 
   const firstName = user.first_name.split(" ")[0];
   const lastName = user.last_name.split(" ")[0];
+
+  console.log(user);
 
   return (
     <header className="h-[50px]">
@@ -20,7 +28,7 @@ const Header = () => {
 
         <Link
           to={"/myProfile"}
-          className="flex justify-between items-center gap-2 rounded-lg border-2 border-slate-500 px-2  hover:bg-white duration-1000 text-txt_gray font-semibold"
+          className="flex justify-between items-center gap-2 rounded-lg border-2 border-slate-500 px-2  hover:bg-white duration-1000 text-txt_gray font-semibold relative"
         >
           <section>
             <h2>

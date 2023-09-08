@@ -44,7 +44,7 @@ const User = ({ user }) => {
       </article>
       <section className="flex flex-col gap-4 text-xl ">
         <div
-          className={`h-[20px] aspect-square bg-gre ${
+          className={`h-[20px] aspect-square ${
             status[user.queue_status]
           } rounded-full`}
         ></div>

@@ -3,7 +3,6 @@ import { Link, useParams } from "react-router-dom";
 import Header from "../layout/Header";
 import Footer from "../layout/Footer";
 import { axiosAgencyTp, getConfig } from "../../utils/configureAxios";
-import Load from "../layout/Load";
 import { useSelector } from "react-redux";
 
 const roles = [
@@ -68,15 +67,11 @@ const UserId = () => {
               className={`relative h-40 rounded-t-lg flex justify-center`}
             >
               <div className="rounded-lg absolute px-8 bottom-0 max-w-[300px] mx-auto ">
-                {user?.profile_img ? (
-                  <img
-                    className="rounded-full shadow-lg shadow-black"
-                    src={user?.profile_img}
-                    alt={user?.first_name}
-                  />
-                ) : (
-                  <Load />
-                )}
+                <img
+                  className="rounded-full shadow-lg shadow-black"
+                  src={user?.profile_img}
+                  alt={user?.first_name}
+                />
               </div>
             </section>
             <section className="flex flex-col justify-center items-center my-6 text-center gap-3">

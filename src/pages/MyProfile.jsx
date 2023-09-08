@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import Header from "../components/layout/Header";
 import Footer from "../components/layout/Footer";
 import { axiosAgencyTp, getConfig } from "../utils/configureAxios";
-import Load from "../components/layout/Load";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../store/slices/userInfo.slice";
 import { useForm } from "react-hook-form";
@@ -97,15 +96,11 @@ const MyProfile = () => {
                 className={`relative h-40 rounded-t-lg flex justify-center`}
               >
                 <div className="rounded-lg absolute px-8 bottom-0 max-w-[200px] mx-auto ">
-                  {user?.profile_img ? (
-                    <img
-                      className="rounded-full shadow-lg shadow-black"
-                      src={user?.profile_img}
-                      alt={user?.first_name}
-                    />
-                  ) : (
-                    <Load />
-                  )}
+                  <img
+                    className="rounded-full shadow-lg shadow-black"
+                    src={user?.profile_img}
+                    alt={user?.first_name}
+                  />
                 </div>
               </section>
               {/* Content card */}
@@ -211,15 +206,11 @@ const MyProfile = () => {
                 className={`relative h-40 rounded-t-lg flex justify-center`}
               >
                 <div className="rounded-lg absolute px-8 bottom-0 max-w-[200px] mx-auto ">
-                  {user?.profile_img ? (
-                    <img
-                      className="rounded-full shadow-lg shadow-black"
-                      src={user?.profile_img}
-                      alt={user?.first_name}
-                    />
-                  ) : (
-                    <Load />
-                  )}
+                  <img
+                    className="rounded-full shadow-lg shadow-black"
+                    src={user?.profile_img}
+                    alt={user?.first_name}
+                  />
                 </div>
               </section>
               {/* Content card */}

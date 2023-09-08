@@ -152,18 +152,18 @@ const PrincipalView = () => {
     setCurrentPage(1);
   }, [currentStatus, nameUser]);
 
-  useEffect(() => {
-    if (!changeStatus) {
-      const url = "/queue/changeMyStatus";
-      const data = { queue_status: "busy" };
-      axiosAgencyTp
-        .patch(url, data, getConfig())
-        .then(() => {})
-        .catch((err) => {
-          err;
-        });
-    }
-  }, [changeStatus]);
+  // useEffect(() => {
+  //   if (!changeStatus) {
+  //     const url = "/queue/changeMyStatus";
+  //     const data = { queue_status: "busy" };
+  //     axiosAgencyTp
+  //       .patch(url, data, getConfig())
+  //       .then(() => {})
+  //       .catch((err) => {
+  //         err;
+  //       });
+  //   }
+  // }, [changeStatus]);
 
   useEffect(() => {
     if (changeStatus) {
@@ -177,6 +177,8 @@ const PrincipalView = () => {
         });
     }
   }, [changeStatus]);
+
+  console.log(changeStatus);
 
   const hasUsers = usersInPage.length > 0;
 
