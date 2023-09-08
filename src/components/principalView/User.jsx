@@ -8,7 +8,7 @@ const status = {
 
 const User = ({ user }) => {
   return (
-    <article className="h-[70px] flex flex-row justify-around items-center gap-2 text-[14px]">
+    <article className="h-[70px] flex flex-row justify-around items-center gap-2 text-[14px] font-semibold bg-bkg_blue rounded-xl py-[50px] ">
       <div className="h-[70px] aspect-square ">
         <img
           src={user.profile_img}
@@ -42,13 +42,15 @@ const User = ({ user }) => {
           </div>
         </section>
       </article>
-      <section>
+      <section className="flex flex-col gap-4 text-xl ">
         <div
-          className={`h-[10px] aspect-square bg-gre ${
+          className={`h-[20px] aspect-square bg-gre ${
             status[user.queue_status]
           } rounded-full`}
         ></div>
-        <Link to={`/user/${user._id}`}>{">"}</Link>
+        <Link to={`/user/${user._id}`}>
+          <i className="bx bx-plus-circle font-semibold"></i>
+        </Link>
       </section>
     </article>
   );

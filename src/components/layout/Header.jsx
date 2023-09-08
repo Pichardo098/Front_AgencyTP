@@ -11,11 +11,16 @@ const Header = () => {
   return (
     <header className="h-[50px]">
       <nav className="h-full flex justify-between text-center items-center px-2">
-        <Link to={"/principalView"}>App To Connect</Link>
+        <Link
+          to={"/principalView"}
+          className="text-slate-500 font-bold p-2 rounded-lg border-2 border-slate-500 hover:bg-white  duration-1000 hover:text-slate-500 transition-colors"
+        >
+          App To Connect
+        </Link>
 
         <Link
           to={"/myProfile"}
-          className="flex justify-between items-center gap-2"
+          className="flex justify-between items-center gap-2 rounded-lg border-2 border-slate-500 px-2  hover:bg-white duration-1000 text-txt_gray font-semibold"
         >
           <section>
             <h2>

@@ -38,17 +38,20 @@ const UserId = () => {
       .catch((err) => console.log(err.response.data.message));
   }, []);
 
-  console.log(user);
-
   return (
-    <div className="grid grid-rows-[auto_1fr_auto] min-h-screen bg-white text-gray-400 items-center ">
+    <div className="grid grid-rows-[auto_1fr_auto] min-h-screen bg-gradient-to-t from-cyan-500 to-bkg_blue text-gray-400 items-center ">
       <Header />
-      <section>
-        <section>
-          <Link to={"/principalView"}>{"<"}</Link>
+      <section className="my-6 mx-2">
+        <section className="flex justify-center gap-4 py-3 items-center">
+          <Link to={"/principalView"}>
+            <i className="bx bxs-left-arrow-circle text-3xl text-black_header hover:text-txt_blue transition-colors duration-700"></i>
+          </Link>
 
           {sessionUser.role == "supervisor" && (
-            <select onChange={handleChangeStatus}>
+            <select
+              onChange={handleChangeStatus}
+              className="cursor-pointer border-none overflow-scroll outline-none bg-black_header text-txt_blue font-bold p-2 rounded-lg"
+            >
               <option value="">Change role</option>
               {roles.map((role) => (
                 <option key={role.label} value={role.value}>
@@ -59,7 +62,7 @@ const UserId = () => {
           )}
         </section>
 
-        <article className="max-w-[1000px]  bg-gray  rounded-md shadow-lg shadow-gray-500 mx-4 mt-[80px] lg:mx-auto">
+        <article className="max-w-[1000px] text-white text-[18px]  bg-txt_gray/70 rounded-md shadow-lg shadow-gray-500 mx-4 mt-[80px] lg:mx-auto">
           <section className="flex flex-col justify-center gap-5">
             <section
               className={`relative h-40 rounded-t-lg flex justify-center`}

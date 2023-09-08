@@ -181,21 +181,30 @@ const PrincipalView = () => {
   const hasUsers = usersInPage.length > 0;
 
   return (
-    <div className="grid grid-rows-[auto_1fr_auto] min-h-screen bg-white text-gray-400 ">
+    <div className="grid grid-rows-[auto_1fr_auto] min-h-screen bg-gradient-to-t from-cyan-500 to-bkg_blue  text-txt_gray  ">
       <Header />
-      <main className="grid grid-rows-[auto_1fr]">
-        <form onSubmit={handleSubmit} className="flex flex-col items-center">
-          <div>
+      <main className="grid grid-rows-[auto_1fr] ">
+        <form
+          onSubmit={handleSubmit}
+          className="flex flex-col items-center my-6 gap-3"
+        >
+          <div className="flex font-semibold">
             <input
+              className="rounded-l-md border-none outline-none font-semibold p-2"
               placeholder="Type a name agent.."
               type="text"
               id="nameAgent"
             />
-            <button>Search</button>
+            <button className="rounded-r-md bg-black_header text-txt_blue hover:bg-bkg_blue hover:text-txt_black transition-colors duration-700  border-2 px-2 font-semibold ">
+              Search
+            </button>
           </div>
 
           <section className="flex gap-4">
-            <select onChange={handleChangeStatus}>
+            <select
+              className="cursor-pointer border-none overflow-scroll outline-none bg-black_header text-txt_blue font-bold p-2 rounded-lg"
+              onChange={handleChangeStatus}
+            >
               <option value="">All Status</option>
               {typesStatus.map((status) => (
                 <option key={status.name} value={status.name}>
@@ -204,7 +213,10 @@ const PrincipalView = () => {
               ))}
             </select>
 
-            <select onChange={handleChangeMyStatus}>
+            <select
+              className="cursor-pointer border-none overflow-scroll outline-none bg-black_header text-txt_blue font-bold p-2 rounded-lg"
+              onChange={handleChangeMyStatus}
+            >
               <option value="">Change your status</option>
               {typesStatus.map((status) => (
                 <option key={status.name} value={status.name}>
@@ -215,7 +227,11 @@ const PrincipalView = () => {
           </section>
           <section>
             {user.role == "supervisor" && (
-              <button type="submit" onClick={handleViewSrAndJr}>
+              <button
+                className="rounded-md p-1 bg-black_header text-txt_blue hover:bg-bkg_blue hover:text-txt_black transition-colors duration-700  border-2 px-2 font-semibold"
+                type="submit"
+                onClick={handleViewSrAndJr}
+              >
                 View Execuites Jr And Sr
               </button>
             )}
@@ -224,27 +240,27 @@ const PrincipalView = () => {
 
         <ListUsers usersInPage={usersInPage} />
         {hasUsers && (
-          <ul className="flex justify-around ">
+          <ul className="flex justify-around w-full ">
             <li
               onClick={() => setCurrentPage(1)}
-              className={`bg-btn_red ${
+              className={`bg-slate-500 ${
                 currentPage == 1 ? "hidden" : "visible"
-              } py-2 px-4 text-bkg_white rounded-md font-extrabold shadow-lg shadow-gray-500 dark:shadow-dk_bg_card cursor-pointer hover:bg-btn_hover hover:scale-125  `}
+              } py-2 px-4 text-bkg_white rounded-md font-extrabold shadow-lg shadow-gray-500 dark:shadow-dk_bg_card cursor-pointer hover:bg-bkg_blue transition-colors duration-700 hover:scale-125  `}
             >
               {"<<"}
             </li>
             <li
               onClick={handleClickPreviousPage}
-              className={`bg-btn_red ${
+              className={`bg-slate-500 ${
                 currentPage == 1 ? "hidden" : "visible"
-              } py-2 px-4 text-bkg_white rounded-md font-extrabold shadow-lg shadow-gray-500 dark:shadow-dk_bg_card cursor-pointer hover:bg-btn_hover hover:scale-125  `}
+              } py-2 px-4 text-bkg_white rounded-md font-extrabold shadow-lg shadow-gray-500 dark:shadow-dk_bg_card cursor-pointer hover:bg-bkg_blue transition-colors duration-700 hover:scale-125  `}
             >
               {"<"}
             </li>
             {pagesInBlock.map((numberPage) => (
               <li
                 style={{ filter: actualPage(currentPage, numberPage) }}
-                className={`bg-btn_red py-2 px-4 blur-sm hover:blur-none text-bkg_white rounded-md font-extrabold shadow-lg shadow-gray-500 dark:shadow-dk_bg_card cursor-pointer  hover:scale-125  `}
+                className={`bg-slate-500 py-2 px-4 blur-sm hover:blur-none text-bkg_white rounded-md font-extrabold shadow-lg shadow-gray-500 dark:shadow-dk_bg_card cursor-pointer hover:bg-bkg_blue transition-colors duration-700  hover:scale-125  `}
                 onClick={() => setCurrentPage(numberPage)}
                 key={numberPage}
               >
@@ -253,17 +269,17 @@ const PrincipalView = () => {
             ))}
             <li
               onClick={handleClickNextPage}
-              className={`bg-btn_red ${
+              className={`bg-slate-500 ${
                 currentPage == lastPage ? "hidden" : "visible"
-              } py-2 px-4 text-bkg_white rounded-md font-extrabold shadow-lg shadow-gray-500 dark:shadow-dk_bg_card cursor-pointer hover:bg-btn_hover hover:scale-125  `}
+              } py-2 px-4 text-bkg_white rounded-md font-extrabold shadow-lg shadow-gray-500 dark:shadow-dk_bg_card cursor-pointer hover:bg-bkg_blue transition-colors duration-700 hover:scale-125  `}
             >
               {">"}
             </li>
             <li
               onClick={() => setCurrentPage(lastPage)}
-              className={`bg-btn_red ${
+              className={`bg-slate-500 ${
                 currentPage == lastPage ? "hidden" : "visible"
-              } py-2 px-4 text-bkg_white rounded-md font-extrabold shadow-lg shadow-gray-500 dark:shadow-dk_bg_card cursor-pointer hover:bg-btn_hover hover:scale-125  `}
+              } py-2 px-4 text-bkg_white rounded-md font-extrabold shadow-lg shadow-gray-500 dark:shadow-dk_bg_card cursor-pointer hover:bg-bkg_blue transition-colors duration-700 hover:scale-125  `}
             >
               {">>"}
             </li>

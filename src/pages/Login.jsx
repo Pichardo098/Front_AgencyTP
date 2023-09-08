@@ -14,13 +14,18 @@ const Login = () => {
   };
 
   return (
-    <section className="flex flex-col min-h-screen justify-between bg-gray-200 text-black  ">
-      <header className="h-[50px]">
+    <section className="flex flex-col min-h-screen justify-between bg-bkg_blue text-black  ">
+      <header className="h-[50px] text-xl font-semibold ">
         {token ? (
           <Navigate to="/principalView" />
         ) : (
           <nav className="h-full flex justify-between text-center items-center px-2">
-            <h1>App To Connect</h1>
+            <Link
+              to={"/"}
+              className="text-slate-500 font-semibold p-2 rounded-lg border-2 border-slate-500 hover:bg-white  duration-1000 hover:text-slate-500 transition-colors"
+            >
+              App To Connect
+            </Link>
           </nav>
         )}
       </header>
@@ -72,7 +77,7 @@ const Login = () => {
 
         <button
           type="submit"
-          className="text-white bg-red-600 p-2 mt-3 hover:bg-red-500 transition-colors"
+          className="bg-slate-500 text-white font-semibold p-2 rounded-lg border-2 border-slate-500 hover:bg-white  duration-1000 hover:text-slate-500 transition-colors"
         >
           Login
         </button>

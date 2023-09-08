@@ -6,6 +6,7 @@ import Load from "../components/layout/Load";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../store/slices/userInfo.slice";
 import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
 
 const MyProfile = () => {
   const { token, user: userStore } = useSelector((store) => store.userInfo);
@@ -64,25 +65,29 @@ const MyProfile = () => {
   }, [userStore]);
 
   return (
-    <div className="grid grid-rows-[auto_1fr_auto] min-h-screen bg-white text-gray-400 items-center ">
+    <div className="grid grid-rows-[auto_auto_1fr_auto] gap-4 min-h-screen bg-gradient-to-t from-cyan-500 to-bkg_blue text-gray-400 items-center ">
       <Header />
+      <section className=" flex justify-center gap-5 items-center">
+        <Link to={"/principalView"}>
+          <i className="bx bxs-left-arrow-circle text-3xl text-black_header hover:text-txt_blue transition-colors duration-700"></i>
+        </Link>
+        <button
+          onClick={handleLogOut}
+          className="bg-black_header text-txt_blue font-bold p-2 rounded-lg border-2 border-txt_black/70 hover:text-txt_black hover:bg-bkg_blue transition-colors duration-700"
+        >
+          Log Out
+        </button>
+      </section>
       <section className="relative">
-        <section className="fixed top-[50px] ">
-          <button>{"<"}</button>
-          <button onClick={handleLogOut} className="bg-red-300">
-            Log Out
-          </button>
-        </section>
-
         {/* Information card */}
-        <article className="max-w-[1000px]  bg-gray  rounded-md shadow-lg shadow-gray-500 mx-4  lg:mx-auto">
+        <article className="max-w-[800px]  bg-txt_gray/70  rounded-md shadow-lg shadow-gray-500 mx-4  lg:mx-auto">
           {update ? (
             <section className="flex flex-col justify-center gap-5">
               {/* User image */}
               <section
                 className={`relative h-40 rounded-t-lg flex justify-center`}
               >
-                <div className="rounded-lg absolute px-8 bottom-0 max-w-[300px] mx-auto ">
+                <div className="rounded-lg absolute px-8 bottom-0 max-w-[200px] mx-auto ">
                   {user?.profile_img ? (
                     <img
                       className="rounded-full shadow-lg shadow-black"
@@ -97,6 +102,7 @@ const MyProfile = () => {
               {/* Content card */}
               <form
                 onSubmit={handleSubmit(submit)}
+                encType="multipart/form-data"
                 className="flex flex-col justify-center items-center my-6 text-center gap-3"
               >
                 {/* First Name */}
@@ -166,15 +172,19 @@ const MyProfile = () => {
                     {...register("profileImgUrl")}
                     className="border-2 rounded-md outline-none p-2 max-w-[170px]"
                     type="file"
-                    id="profileImg"
+                    id="profileImgUrl"
                   />
                 </div>
 
-                <section>
-                  <button className="text-white bg-red-600 p-2 mt-3 hover:bg-red-500 transition-colors">
+                <section className="flex gap-5 items-center">
+                  <button className="bg-slate-500 text-white font-semibold p-2 rounded-lg border-2 border-slate-500 hover:bg-white  duration-1000 hover:text-slate-500 transition-colors">
                     Save Changes
                   </button>
-                  <button type="button" onClick={handleUpdate}>
+                  <button
+                    type="button"
+                    onClick={handleUpdate}
+                    className="bg-slate-500 text-white font-semibold p-2 rounded-lg border-2 border-slate-500 hover:bg-white  duration-1000 hover:text-slate-500 transition-colors"
+                  >
                     Cancel
                   </button>
                 </section>
@@ -186,7 +196,7 @@ const MyProfile = () => {
               <section
                 className={`relative h-40 rounded-t-lg flex justify-center`}
               >
-                <div className="rounded-lg absolute px-8 bottom-0 max-w-[300px] mx-auto ">
+                <div className="rounded-lg absolute px-8 bottom-0 max-w-[200px] mx-auto ">
                   {user?.profile_img ? (
                     <img
                       className="rounded-full shadow-lg shadow-black"
@@ -199,7 +209,7 @@ const MyProfile = () => {
                 </div>
               </section>
               {/* Content card */}
-              <section className="flex flex-col justify-center items-center my-6 text-center gap-3">
+              <section className="flex flex-col text-white justify-center items-center my-6 text-center gap-3">
                 <h2 className="font-semibold">
                   {`${user?.first_name
                     .split(" ")[0][0]
@@ -257,9 +267,19 @@ const MyProfile = () => {
                   <p>{user?.description}</p>
                 </section>
 
-                <section className="flex justify-center gap-8">
-                  <button onClick={handleUpdate}>Update Info</button>
-                  <button onClick={handleDelete}>Delete account</button>
+                <section className="flex justify-center gap-8 my-6">
+                  <button
+                    onClick={handleUpdate}
+                    className="bg-slate-500 text-white font-semibold p-2 rounded-lg border-2 border-slate-500 hover:bg-white  duration-1000 hover:text-slate-500 transition-colors"
+                  >
+                    Update Info
+                  </button>
+                  <button
+                    onClick={handleDelete}
+                    className="bg-slate-500 text-white font-semibold p-2 rounded-lg border-2 border-slate-500 hover:bg-white  duration-1000 hover:text-slate-500 transition-colors"
+                  >
+                    Delete account
+                  </button>
                 </section>
               </section>
             </section>

@@ -18,27 +18,33 @@ const Signup = () => {
   const dispatch = useDispatch();
 
   const submit = (dataRegisterUser) => {
-    axiosAgencyTp
-      .post("/users/signup", dataRegisterUser)
-      .then(() => {
-        const dataLogin = {
-          email: dataRegisterUser.email,
-          password: dataRegisterUser.password,
-        };
-        window.alert("Cuenta creada con éxito");
-        dispatch(loginUser(dataLogin));
-      })
-      .catch((err) => console.log(err));
+    console.log(dataRegisterUser.profileImgUrl);
+    // axiosAgencyTp
+    //   .post("/users/signup", dataRegisterUser)
+    //   .then(() => {
+    //     const dataLogin = {
+    //       email: dataRegisterUser.email,
+    //       password: dataRegisterUser.password,
+    //     };
+    //     window.alert("Cuenta creada con éxito");
+    //     dispatch(loginUser(dataLogin));
+    //   })
+    //   .catch((err) => console.log(err));
   };
 
   return (
-    <section className="flex flex-col min-h-screen justify-between bg-gray-200 text-black ">
+    <section className="flex flex-col min-h-screen justify-between bg-bkg_blue text-black ">
       <header className="h-[50px]">
         {token ? (
           <Navigate to="/principalView" />
         ) : (
           <nav className="h-full flex justify-between text-center items-center px-2">
-            <h1>App To Connect</h1>
+            <Link
+              to={"/"}
+              className="text-slate-500 font-semibold p-2 rounded-lg border-2 border-slate-500 hover:bg-white  duration-1000 hover:text-slate-500 transition-colors"
+            >
+              App To Connect
+            </Link>
           </nav>
         )}
       </header>
@@ -135,7 +141,7 @@ const Signup = () => {
             />
           </div>
 
-          <button className="text-white bg-red-600 p-2 mt-3 hover:bg-red-500 transition-colors">
+          <button className="bg-slate-500 text-white font-semibold p-2 rounded-lg border-2 border-slate-500 hover:bg-white  duration-1000 hover:text-slate-500 transition-colors">
             Sign up
           </button>
 
